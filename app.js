@@ -1,3 +1,29 @@
+const filters = () => {
+    console.log("entra");
+    fetch(
+        "https://cors-anywhere.herokuapp.com/https://api-gas-stations-mex.herokuapp.com/gasstations"
+    )
+    .then(response => response.json())
+    .then(locations => {
+        console.log("Todaaa: ",locations);
+        traeTipos(locations);
+    });
+};
+
+const traeTipos = (data) => {
+    let tipos = [];
+    data.forEach(items => {
+        if(items.gas_price !== undefined){
+            if(tipos.find(ele => ele === items.gas_price.type) === undefined){
+                if(items.gas_price.type !== undefined){
+                    tipos.push(items.gas_price.type);
+                }
+            }
+        }
+    });
+    console.log("tipos: ", tipos);
+};
+
 const getLocations = () => {
   fetch(
     "https://cors-anywhere.herokuapp.com/https://api-gas-stations-mex.herokuapp.com/gasstations"
@@ -50,6 +76,7 @@ const dibujarMapa = (obj, locationsInfo) => {
   });
 };
 window.addEventListener("load", getLocations);
+window.addEventListener("load", filters);
 function noGet() {
   alert("Porfavor habilita el permiso para compartir ubicación");
 }
